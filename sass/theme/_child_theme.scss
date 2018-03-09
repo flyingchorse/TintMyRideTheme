@@ -15,8 +15,7 @@ margin-top: 30px;
 .cta-form-overlay {
 		position: absolute;
 		right: 30px;
-		
-		margin-top: 30px;
+		bottom: 30px;
 		
 		.card {
 			background-color: rgba(255, 255, 255, 0.3);
@@ -24,3 +23,10 @@ margin-top: 30px;
 		}
 }
 
+#wrapper-home {
+	padding-top: 0;
+}
+
+h1 .entry-title {
+	display: none;
+}

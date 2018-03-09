@@ -14,7 +14,7 @@ $sidebar_pos = get_theme_mod( 'understrap_sidebar_position' );
 $posts_style = 'grid';
 
 
-	digidol_hero();
+	//digidol_hero();
 	
 	get_sidebar( 'statichero' );
 
@@ -22,64 +22,62 @@ $posts_style = 'grid';
 
 
 
+
 <div class="wrapper" id="wrapper-home">
 
-	<div class="container-fluid" id="content" tabindex="-1">
+	<div class="<?php echo esc_html( $container ); ?>" id="content" tabindex="-1">
 
 		<div class="row">
 
 			<!-- Do the left sidebar check and opens the primary div -->
 			<div class="col-md-12 content-area" id="primary">
 
-			<?php if ( 'masonry' === $posts_style ) : ?>
+			<main class="site-main" id="main">
 
-			<div class="card-columns"><?php endif; ?>
-			
-				<main class="site-main" id="main">
-					<div class="row">
-				<?php 
-					$theme_category = get_theme_mod( 'homepage_category', 'default_value' );
-					$latest_blog_posts = new WP_Query( array( 'cat' => $theme_category ) );?>
-					<?php if ( $latest_blog_posts->have_posts() ) : ?>
+				<?php while ( have_posts() ) : the_post(); ?>
 
-						<?php /* Start the Loop */ ?>
+					
+<article <?php post_class(); ?> id="post-<?php the_ID(); ?>">
 
-						<?php while ( $latest_blog_posts->have_posts() ) : $latest_blog_posts->the_post(); ?>
+	<header class="entry-header  <?php if (is_page_template('page-templates/foliopage.php')) { echo is_page_template('foliopage.php');?> hidden-xl-down<?php } ?> ">
 
-							<?php
-							if ( 'masonry' === $posts_style ) :
-								get_template_part( 'loop-templates/content', 'card' );
-							elseif ( 'grid' === $posts_style ) :
+		
 
-								get_template_part( 'loop-templates/content', 'grid' );
-							else :
-								/*
-								 * Include the Post-Format-specific template for the content.
-								 * If you want to override this in a child theme, then include a file
-								 * called content-___.php (where ___ is the Post Format name) and that will be used instead.
-								 */
-								get_template_part( 'loop-templates/content', get_post_format() );
-							endif;
-							?>
+	</header><!-- .entry-header -->
 
-						<?php endwhile; ?>
+	<?php echo get_the_post_thumbnail( $post->ID, 'large' ); ?>
 
-					<?php else : ?>
+	<div class="entry-content text-justify">
 
-						<?php get_template_part( 'loop-templates/content', 'none' ); ?>
+		<?php the_content(); ?>
 
-					<?php endif; ?>
-				<?php if ( 'masonry' === $posts_style ) : ?></div><?php endif; ?>
-				</div>
+		<?php
+		wp_link_pages( array(
+			'before' => '<div class="page-links">' . __( 'Pages:', 'understrap' ),
+			'after'  => '</div>',
+		) );
+		?>
+
+	</div><!-- .entry-content -->
+
+	<footer class="entry-footer">
+
+		<?php edit_post_link( __( 'Edit', 'understrap' ), '<span class="edit-link">', '</span>' ); ?>
+
+	</footer><!-- .entry-footer -->
+
+</article><!-- #post-## -->
+
+					
+
+				<?php endwhile; // end of the loop. ?>
+
 			</main><!-- #main -->
-
-			<?php understrap_pagination(); ?>
 
 		</div><!-- #primary -->
 
 		<!-- Do the right sidebar check -->
-	
-
+		
 	</div><!-- .row -->
 
 </div><!-- Container end -->
